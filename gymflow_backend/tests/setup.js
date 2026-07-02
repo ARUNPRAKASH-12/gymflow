@@ -1,0 +1,9 @@
+process.env.NODE_ENV = 'test';
+process.env.SUPABASE_URL = 'https://test-project.supabase.co';
+process.env.SUPABASE_ANON_KEY = 'test-anon-key';
+process.env.SUPABASE_SERVICE_KEY = 'test-service-key';
+process.env.JWT_SECRET = 'test-jwt-secret';
+process.env.RAZORPAY_KEY_ID = 'test_key';
+process.env.RAZORPAY_KEY_SECRET = 'test_secret';
+process.env.FRONTEND_URL = 'http://localhost:5173';
+process.env.PORT = '0';

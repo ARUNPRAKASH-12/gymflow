@@ -1,0 +1,15 @@
+node_modules/
+.env
+*.log
+dist/
+build/
+.gradle/
+.idea/
+*.iml
+.DS_Store
+android/
+ios/
+.codemagic.yaml
+flutter/
+.pub-cache/
+.dart_tool/

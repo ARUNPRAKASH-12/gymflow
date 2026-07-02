@@ -1,0 +1,14 @@
+.dart_tool/
+.packages
+.pub/
+build/
+flutter_*.log
+.idea/
+.vscode/
+*.iml
+*.apk
+*.aab
+*.ipa
+*.dSYM.zip
+*.dSYM
+.env
