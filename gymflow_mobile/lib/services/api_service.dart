@@ -314,11 +314,11 @@ class ApiService {
   // Export
   Future<String> exportReport(String type) async {
     final url = Uri.parse('$baseUrl/reports/export/$type?format=xlsx');
-    final token = await _getToken();
+    if (_token == null) throw ApiException(message: 'Not authenticated');
     final response = await http.get(
       url,
       headers: {
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer $_token',
       },
     );
     if (response.statusCode != 200) {
@@ -333,11 +333,11 @@ class ApiService {
   // Invoice
   Future<String> downloadInvoice(String paymentId) async {
     final url = Uri.parse('$baseUrl/payments/$paymentId/invoice/download');
-    final token = await _getToken();
+    if (_token == null) throw ApiException(message: 'Not authenticated');
     final response = await http.get(
       url,
       headers: {
-        'Authorization': 'Bearer $token',
+        'Authorization': 'Bearer $_token',
       },
     );
     if (response.statusCode != 200) {
