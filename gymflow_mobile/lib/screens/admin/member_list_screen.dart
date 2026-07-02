@@ -34,8 +34,8 @@ class _MemberListScreenState extends ConsumerState<MemberListScreen> {
     final query = _searchController.text.toLowerCase().trim();
     if (query.isEmpty) return _members;
     return _members.where((m) {
-      final name = m.fullName?.toLowerCase() ?? '';
-      final email = m.email?.toLowerCase() ?? '';
+      final name = m.profile?.fullName.toLowerCase() ?? '';
+      final email = m.user?.email.toLowerCase() ?? '';
       return name.contains(query) || email.contains(query);
     }).toList();
   }
