@@ -18,7 +18,7 @@ class AuthState {
 
   const AuthState({
     this.isAuthenticated = false,
-    this.isLoading = false,
+    this.isLoading = true,
     this.error,
     this.user,
     this.profile,
@@ -64,6 +64,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> _init() async {
+    await _api.init();
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(StorageKeys.token);
     final role = prefs.getString(StorageKeys.userRole);
@@ -72,7 +73,6 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     if (token != null) {
       try {
-        state = state.copyWith(isLoading: true);
         final profile = await _api.getProfile();
         final userData = profile['user'];
         final profileData = profile['profile'];
@@ -95,6 +95,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       } catch (e) {
         state = state.copyWith(isLoading: false);
       }
+    } else {
+      state = state.copyWith(isLoading: false);
     }
   }
 

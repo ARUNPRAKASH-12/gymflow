@@ -4,5 +4,18 @@ import 'app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const ProviderScope(child: GymFlowApp()));
+  runApp(
+    const ProviderScope(
+      child: _AppWrapper(),
+    ),
+  );
+}
+
+class _AppWrapper extends StatelessWidget {
+  const _AppWrapper();
+
+  @override
+  Widget build(BuildContext context) {
+    return const GymFlowApp();
+  }
 }

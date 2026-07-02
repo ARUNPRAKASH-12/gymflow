@@ -28,14 +28,19 @@ import '../screens/member/subscription_renew_screen.dart';
 import '../screens/shared/profile_screen.dart';
 import '../screens/shared/notifications_screen.dart';
 import '../screens/shared/qr_scanner_screen.dart';
+import '../screens/shared/splash_screen.dart';
 
 GoRouter createRouter(Ref ref) {
   final authState = ref.watch(authProvider);
 
   return GoRouter(
-    initialLocation: '/login',
+    initialLocation: '/splash',
     debugLogDiagnostics: true,
     routes: [
+      GoRoute(
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
       GoRoute(
         path: '/login',
         builder: (context, state) => const LoginScreen(),
@@ -142,13 +147,22 @@ GoRouter createRouter(Ref ref) {
       ),
     ],
     redirect: (context, state) {
+      final isLoading = authState.isLoading;
       final isLoggedIn = authState.isAuthenticated;
-      final isOnAuthPage = state.matchedLocation.startsWith('/login') ||
-          state.matchedLocation.startsWith('/register') ||
-          state.matchedLocation.startsWith('/forgot-password');
+      final location = state.matchedLocation;
+      final isOnSplash = location == '/splash';
+      final isOnAuthPage = location.startsWith('/login') ||
+          location.startsWith('/register') ||
+          location.startsWith('/forgot-password');
+
+      if (isLoading) {
+        if (!isOnSplash) return '/splash';
+        return null;
+      }
 
       if (!isLoggedIn && !isOnAuthPage) return '/login';
       if (isLoggedIn && isOnAuthPage) return _getDefaultRoute(authState.role);
+      if (isLoggedIn && isOnSplash) return _getDefaultRoute(authState.role);
 
       return null;
     },
