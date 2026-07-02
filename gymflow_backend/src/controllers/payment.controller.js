@@ -1,5 +1,5 @@
 import { supabase } from '../config/supabase.js';
-import { razorpay } from '../config/razorpay.js';
+import { getRazorpay, isRazorpayConfigured } from '../config/razorpay.js';
 import crypto from 'crypto';
 
 export async function listPayments(req, res) {
@@ -102,6 +102,10 @@ export async function createPayment(req, res) {
 
 export async function createRazorpayOrder(req, res) {
   try {
+    if (!isRazorpayConfigured()) {
+      return res.status(400).json({ error: 'Razorpay is not configured. Please set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET.' });
+    }
+
     const { membership_plan_id } = req.body;
 
     if (!membership_plan_id) {
@@ -129,6 +133,7 @@ export async function createRazorpayOrder(req, res) {
       },
     };
 
+    const razorpay = getRazorpay();
     const order = await razorpay.orders.create(options);
 
     await supabase.from('payments').insert({
