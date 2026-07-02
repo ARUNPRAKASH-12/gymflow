@@ -313,7 +313,7 @@ class ApiService {
 
   // Export
   Future<String> exportReport(String type) async {
-    final url = Uri.parse('$baseUrl/reports/export/$type?format=xlsx');
+    final url = Uri.parse('${ApiConstants.baseUrl}/reports/export/$type?format=xlsx');
     if (_token == null) throw ApiException(message: 'Not authenticated');
     final response = await http.get(
       url,
@@ -332,7 +332,7 @@ class ApiService {
 
   // Invoice
   Future<String> downloadInvoice(String paymentId) async {
-    final url = Uri.parse('$baseUrl/payments/$paymentId/invoice/download');
+    final url = Uri.parse('${ApiConstants.baseUrl}/payments/$paymentId/invoice/download');
     if (_token == null) throw ApiException(message: 'Not authenticated');
     final response = await http.get(
       url,
