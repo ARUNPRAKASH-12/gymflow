@@ -31,10 +31,13 @@ import '../screens/shared/qr_scanner_screen.dart';
 import '../screens/shared/splash_screen.dart';
 
 GoRouter createRouter(Ref ref) {
-  final authState = ref.watch(authProvider);
+  ref.listen(authProvider, (prev, next) {
+    _authRefreshNotifier.value++;
+  });
 
   return GoRouter(
     initialLocation: '/splash',
+    refreshListenable: _authRefreshNotifier,
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -147,6 +150,7 @@ GoRouter createRouter(Ref ref) {
       ),
     ],
     redirect: (context, state) {
+      final authState = ref.read(authProvider);
       final isLoading = authState.isLoading;
       final isLoggedIn = authState.isAuthenticated;
       final location = state.matchedLocation;
@@ -168,6 +172,8 @@ GoRouter createRouter(Ref ref) {
     },
   );
 }
+
+final ValueNotifier<int> _authRefreshNotifier = ValueNotifier(0);
 
 String _getDefaultRoute(String? role) {
   switch (role) {

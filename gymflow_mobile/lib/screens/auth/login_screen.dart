@@ -35,23 +35,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             _emailController.text.trim(),
             _passwordController.text,
           );
-      final authState = ref.read(authProvider);
-      final role = authState.role;
-
-      String route;
-      switch (role) {
-        case 'admin':
-        case 'superadmin':
-          route = '/admin/dashboard';
-          break;
-        case 'trainer':
-          route = '/trainer/dashboard';
-          break;
-        default:
-          route = '/member/dashboard';
-      }
-
-      if (mounted) context.go(route);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
