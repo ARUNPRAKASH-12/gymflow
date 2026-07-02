@@ -1,0 +1,28 @@
+workflows:
+  gymflow-mobile:
+    name: GymFlow Mobile
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    environment:
+      vars:
+        API_BASE_URL: https://gymflow-j5ir.onrender.com/api
+        SUPABASE_URL: https://xcxeamroucnokdpilqsd.supabase.co
+        SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhjeGVhbXJvdWNub2tkcGlscXNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMDIxOTksImV4cCI6MjA5ODU3ODE5OX0.Y_A8vnrTqifmonMVQ5Wt1yTJlin5iyQpk0NozAGjZqU
+      flutter: stable
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+    scripts:
+      - name: Get Flutter packages
+        script: cd gymflow_mobile && flutter pub get
+      - name: Build Android APK
+        script: cd gymflow_mobile && flutter build apk --release
+    artifacts:
+      - gymflow_mobile/build/app/outputs/flutter-apk/*.apk
+    publishing:
+      email:
+        recipients:
+          - arunprakashs.12@gmail.com

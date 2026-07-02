@@ -1,17 +1,17 @@
 class ApiConstants {
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:3000/api',
+    defaultValue: 'https://gymflow-j5ir.onrender.com/api',
   );
 
   static const String supabaseUrl = String.fromEnvironment(
     'SUPABASE_URL',
-    defaultValue: 'https://your-project.supabase.co',
+    defaultValue: 'https://xcxeamroucnokdpilqsd.supabase.co',
   );
 
   static const String supabaseAnonKey = String.fromEnvironment(
     'SUPABASE_ANON_KEY',
-    defaultValue: 'your-anon-key',
+    defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhjeGVhbXJvdWNub2tkcGlscXNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwMDIxOTksImV4cCI6MjA5ODU3ODE5OX0.Y_A8vnrTqifmonMVQ5Wt1yTJlin5iyQpk0NozAGjZqU',
   );
 }
 
