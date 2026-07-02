@@ -93,7 +93,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
           selectedGymName: gymName,
         );
       } catch (e) {
-        state = state.copyWith(isLoading: false);
+        state = state.copyWith(
+          isLoading: false,
+          isAuthenticated: true,
+          role: role,
+          selectedGymId: gymId,
+          selectedGymName: gymName,
+        );
       }
     } else {
       state = state.copyWith(isLoading: false);
@@ -142,13 +148,21 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   Future<void> selectGym(String gymId, {String? gymName}) async {
     try {
-      await _api.selectGym(gymId);
+      final result = await _api.selectGym(gymId);
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(StorageKeys.selectedGymId, gymId);
       if (gymName != null) {
         await prefs.setString(StorageKeys.selectedGymName, gymName);
       }
-      state = state.copyWith(selectedGymId: gymId, selectedGymName: gymName);
+      final newRole = result['role'] as String?;
+      if (newRole != null) {
+        await prefs.setString(StorageKeys.userRole, newRole);
+      }
+      state = state.copyWith(
+        selectedGymId: gymId,
+        selectedGymName: gymName,
+        role: newRole ?? state.role,
+      );
     } catch (e) {
       state = state.copyWith(error: e.toString());
     }

@@ -256,7 +256,7 @@ class _AttendanceTabState extends ConsumerState<_AttendanceTab> {
 
   Future<void> _load() async {
     try {
-      final data = await _api.getMyAttendance();
+      final data = await _api.getMemberAttendance(widget.userId);
       setState(() => _records = data);
     } catch (_) {}
     if (mounted) setState(() => _isLoading = false);
@@ -302,7 +302,7 @@ class _PaymentsTabState extends ConsumerState<_PaymentsTab> {
 
   Future<void> _load() async {
     try {
-      final data = await _api.getMyPayments();
+      final data = await _api.getMemberPayments(widget.userId);
       setState(() => _payments = data);
     } catch (_) {}
     if (mounted) setState(() => _isLoading = false);

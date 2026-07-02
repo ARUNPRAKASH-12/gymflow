@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../services/api_service.dart';
 import '../../config/theme.dart';
+import '../../utils/extensions.dart';
 
 class MyDietScreen extends ConsumerStatefulWidget {
   const MyDietScreen({super.key});
@@ -141,9 +142,4 @@ class _MyDietScreenState extends ConsumerState<MyDietScreen> {
   }
 }
 
-extension on String {
-  String capitalize() {
-    if (isEmpty) return this;
-    return '${this[0].toUpperCase()}${substring(1)}';
-  }
-}
+

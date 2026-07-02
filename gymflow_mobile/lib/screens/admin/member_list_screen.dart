@@ -30,6 +30,16 @@ class _MemberListScreenState extends ConsumerState<MemberListScreen> {
     super.dispose();
   }
 
+  List<Member> get _filteredMembers {
+    final query = _searchController.text.toLowerCase().trim();
+    if (query.isEmpty) return _members;
+    return _members.where((m) {
+      final name = m.fullName?.toLowerCase() ?? '';
+      final email = m.email?.toLowerCase() ?? '';
+      return name.contains(query) || email.contains(query);
+    }).toList();
+  }
+
   Future<void> _loadMembers() async {
     setState(() => _isLoading = true);
     try {
@@ -82,11 +92,7 @@ class _MemberListScreenState extends ConsumerState<MemberListScreen> {
                     ? IconButton(icon: const Icon(Icons.clear), onPressed: () { _searchController.clear(); _loadMembers(); })
                     : null,
               ),
-              onChanged: (v) {
-                if (v.length > 2) {
-                  setState(() {});
-                }
-              },
+              onChanged: (v) => setState(() {}),
             ),
           ),
           Expanded(
@@ -95,10 +101,10 @@ class _MemberListScreenState extends ConsumerState<MemberListScreen> {
                 : RefreshIndicator(
                     onRefresh: _loadMembers,
                     child: ListView.builder(
-                      itemCount: _members.length,
+                      itemCount: _filteredMembers.length,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       itemBuilder: (context, index) {
-                        final member = _members[index];
+                        final member = _filteredMembers[index];
                         return Card(
                           margin: const EdgeInsets.only(bottom: 8),
                           child: InkWell(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../services/api_service.dart';
 import '../../config/theme.dart';
+import '../../utils/extensions.dart';
 
 class DietCreateScreen extends ConsumerStatefulWidget {
   const DietCreateScreen({super.key});
@@ -110,8 +112,8 @@ class _DietCreateScreenState extends ConsumerState<DietCreateScreen> {
                   DropdownButtonFormField<String>(
                     decoration: const InputDecoration(labelText: 'Assign to Member'),
                     items: _members.map<DropdownMenuItem<String>>((m) {
-                      final name = m['profile']?['full_name'] ?? 'Unknown';
-                      return DropdownMenuItem<String>(value: m['user_id'] as String?, child: Text(name));
+                      final name = m['profile']?['full_name'] ?? m['user']?['email'] ?? 'Unknown';
+                      return DropdownMenuItem<String>(value: m['user']?['id'] as String?, child: Text(name));
                     }).toList(),
                     onChanged: (v) => _selectedMemberId = v,
                   ),
@@ -193,6 +195,4 @@ class _DietCreateScreenState extends ConsumerState<DietCreateScreen> {
   }
 }
 
-extension on String {
-  String capitalize() => '${this[0].toUpperCase()}${substring(1)}';
-}
+

@@ -53,14 +53,8 @@ class GymSelectionScreen extends ConsumerWidget {
                       itemCount: authState.gyms.length,
                       itemBuilder: (context, index) {
                         final gym = authState.gyms[index];
-                        return _GymCard(gym: gym, onTap: () {
-                          ref.read(authProvider.notifier).selectGym(gym.id, gymName: gym.name);
-                          final role = authState.role;
-                          context.go(role == 'admin' || role == 'superadmin'
-                              ? '/admin/dashboard'
-                              : role == 'trainer'
-                                  ? '/trainer/dashboard'
-                                  : '/member/dashboard');
+                        return _GymCard(gym: gym, onTap: () async {
+                          await ref.read(authProvider.notifier).selectGym(gym.id, gymName: gym.name);
                         });
                       },
                     ),

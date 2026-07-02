@@ -211,7 +211,8 @@ class ApiService {
 
   Future<List<dynamic>> getMyAttendance() async {
     final result = await _request('GET', '/attendance/mine');
-    return result['records'] ?? [];
+    if (result is List) return result;
+    return (result as Map)['records'] ?? [];
   }
 
   Future<Map<String, dynamic>> getTodayAttendance({String? gymId}) async {
@@ -249,6 +250,16 @@ class ApiService {
   }
 
   // Workouts
+  Future<List<dynamic>> getMemberAttendance(String memberId) async {
+    final result = await _request('GET', '/members/$memberId/attendance');
+    return result is List ? result : [];
+  }
+
+  Future<List<dynamic>> getMemberPayments(String memberId) async {
+    final result = await _request('GET', '/members/$memberId/payments');
+    return result is List ? result : [];
+  }
+
   Future<List<dynamic>> getWorkouts({String? memberId, String? date}) async {
     final result = await _request('GET', '/workouts', queryParams: {
       if (memberId != null) 'member_id': memberId,
